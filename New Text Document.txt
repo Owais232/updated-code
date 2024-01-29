@@ -1,0 +1,75 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Product {
+private:
+    string name;
+    double price;
+
+public:
+    Product(string productName, double productPrice) {
+        name = productName;
+        price = productPrice;
+    }
+
+    string getName() const {
+        return name;
+    }
+
+    double getPrice() const {
+        return price;
+    }
+};
+
+class CartDisplay {
+public:
+    static void displayItems(const vector<Product>& items) {
+        cout << "Items in your cart:" << endl;
+        for (size_t i = 0; i < items.size(); i++) {
+            cout << i + 1 << ". " << items[i].getName() << " - $" << items[i].getPrice() << endl;
+        }
+    }
+};
+
+class ShoppingCart {
+private:
+    vector<Product> items;
+
+public:
+    void addItem(const Product& item) {
+        items.push_back(item);
+    }
+
+    const vector<Product>& getItems() const {
+        return items;
+    }
+
+    double calculateTotal() const {
+        double total = 0.0;
+        for (const auto& item : items) {
+            total += item.getPrice();
+        }
+        return total;
+    }
+};
+
+int main() {
+    ShoppingCart cart;
+
+    Product apple("Apple", 1.99);
+    Product banana("Banana", 0.99);
+    Product milk("Milk", 2.49);
+
+    cart.addItem(apple);
+    cart.addItem(banana);
+    cart.addItem(milk);
+
+    CartDisplay::displayItems(cart.getItems());
+
+    cout << "Total: $" << cart.calculateTotal() << endl;
+
+    return 0;
+}
